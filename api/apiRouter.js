@@ -28,4 +28,36 @@ router.post("/", async (req, res) => {
   }
 });
 
+//update request
+
+router.put("/:id", async (req, res) => {
+  try {
+    const api = await dbThing.update(req.params.id, req.body);
+    if (!req.body.name) {
+      res.status(400).json({ message: "please add a name" });
+    } else {
+      res.status(200).json(api);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "error updating account"
+    });
+  }
+});
+
+//delete request
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const api = await dbThing.remove(req.params.id);
+    res.status(200).json(api);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "error deleting account"
+    });
+  }
+});
+
 module.exports = router;
